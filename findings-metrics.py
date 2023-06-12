@@ -20,6 +20,7 @@ def severity_metrics(file_name):
     critical_count = 0
     undetermined_count = 0
     unknown_count = 0
+    codearena_labels = ['QA (Quality Assurance)', 'G (Gas Optimization)', '0 (Non-critical)', '1 (Low Risk)', '2 (Med Risk)', '3 (High Risk)']
 
     # Iterate through all findings to list high, medium, low
     for finding in existing_findings:
@@ -27,24 +28,39 @@ def severity_metrics(file_name):
         # Identify the finding severity information
         severity = ""
         for label in labels:
-            if label.find("Severity: ") > -1:
+            if label.find("Severity: ") > -1: # for tob and yaudit data
                 severity = label[label.find("Severity: ") + len("Severity: "):]
+            elif label in codearena_labels: # for tob and yaudit data
+                severity = label
         match severity:
             case 'Informational':
                 informational_count += 1
+            case 'QA (Quality Assurance)':
+                informational_count += 1
             case 'Gas':
+                gas_count += 1
+            case 'G (Gas Optimization)':
                 gas_count += 1
             case 'Low':
                 low_count += 1
+            case '1 (Low Risk)':
+                low_count += 1
             case 'Medium':
                 medium_count += 1
+            case '2 (Med Risk)':
+                medium_count += 1
             case 'High':
+                high_count += 1
+            case '3 (High Risk)':
                 high_count += 1
             case 'Critical':
                 critical_count += 1
             case 'Undetermined':
                 undetermined_count += 1
+            case '0 (Non-critical)':
+                undetermined_count += 1
             case _:
+                print(labels)
                 unknown_count += 1
 
     print_severities(informational_count, gas_count, low_count, medium_count, high_count, critical_count, undetermined_count, unknown_count, len(existing_findings))
@@ -64,7 +80,7 @@ def print_severities(info, gas, low, med, high, crit, undetermined, unknown, tot
 if __name__ == "__main__":
     severity_metrics("codearena_findings.json")
     severity_metrics("gitbook_docs.json")
-    severity_metrics("hacklabs_findings.json")
+    # severity_metrics("hacklabs_findings.json") # no severity data for hacklabs
     severity_metrics("immunefi_findings.json")
     severity_metrics("tob_findings.json")
     severity_metrics("yaudit_findings.json")
