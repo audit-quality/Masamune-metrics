@@ -60,7 +60,7 @@ def severity_metrics(file_name):
             case '0 (Non-critical)':
                 undetermined_count += 1
             case _:
-                print(labels)
+                # print(labels) # print unknown severity for debugging
                 unknown_count += 1
 
     print_severities(informational_count, gas_count, low_count, medium_count, high_count, critical_count, undetermined_count, unknown_count, len(existing_findings))
