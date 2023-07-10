@@ -59,4 +59,16 @@ yaudit_findings.json
 0 Undetermined findings or 0.0%
 0 Unknown findings or 0.0%
 654 total findings
+
+spearbit_findings.json
+743 Info findings or 41.67134043746495%
+292 Gas findings or 16.376892877173304%
+356 Low findings or 19.966348850252384%
+221 Medium findings or 12.394840157038699%
+135 High findings or 7.571508693213684%
+36 Critical findings or 2.0190689848569825%
+0 Undetermined findings or 0.0%
+0 Unknown findings or 0.0%
+1783 total findings
+
 ```

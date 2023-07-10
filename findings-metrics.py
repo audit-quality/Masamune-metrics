@@ -28,8 +28,9 @@ def severity_metrics(file_name):
         # Identify the finding severity information
         severity = ""
         for label in labels:
-            if label.find("Severity: ") > -1: # for tob and yaudit data
+            if label.find("Severity: ") > -1: # for tob and yaudit and spearbit data
                 severity = label[label.find("Severity: ") + len("Severity: "):]
+                severity = severity.split(" ")[0] # only take the first word
             elif label in codearena_labels: # for tob and yaudit data
                 severity = label
         match severity:
@@ -84,3 +85,4 @@ if __name__ == "__main__":
     severity_metrics("immunefi_findings.json")
     severity_metrics("tob_findings.json")
     severity_metrics("yaudit_findings.json")
+    severity_metrics("spearbit_findings.json")
