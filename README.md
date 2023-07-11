@@ -71,4 +71,14 @@ spearbit_findings.json
 0 Unknown findings or 0.0%
 1783 total findings
 
+dedaub_findings.json
+260 Info findings or 66.66666666666667%
+0 Gas findings or 0.0%
+58 Low findings or 14.871794871794872%
+50 Medium findings or 12.820512820512821%
+12 High findings or 3.076923076923077%
+10 Critical findings or 2.5641025641025643%
+0 Undetermined findings or 0.0%
+0 Unknown findings or 0.0%
+390 total findings
 ```

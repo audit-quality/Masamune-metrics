@@ -86,3 +86,4 @@ if __name__ == "__main__":
     severity_metrics("tob_findings.json")
     severity_metrics("yaudit_findings.json")
     severity_metrics("spearbit_findings.json")
+    severity_metrics("dedaub_findings.json")
