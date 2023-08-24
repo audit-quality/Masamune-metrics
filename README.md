@@ -50,15 +50,15 @@ tob_findings.json
 524 total findings
 
 yaudit_findings.json
-267 Info findings or 40.825688073394495%
-188 Gas findings or 28.74617737003058%
-108 Low findings or 16.513761467889907%
-47 Medium findings or 7.186544342507645%
-40 High findings or 6.116207951070336%
-4 Critical findings or 0.6116207951070336%
+350 Info findings or 40.88785046728972%
+224 Gas findings or 26.16822429906542%
+145 Low findings or 16.939252336448597%
+71 Medium findings or 8.294392523364486%
+60 High findings or 7.009345794392523%
+6 Critical findings or 0.7009345794392523%
 0 Undetermined findings or 0.0%
 0 Unknown findings or 0.0%
-654 total findings
+856 total findings
 
 spearbit_findings.json
 743 Info findings or 41.67134043746495%
