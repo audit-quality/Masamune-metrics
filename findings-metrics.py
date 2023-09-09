@@ -64,21 +64,90 @@ def severity_metrics(file_name):
                 # print(labels) # print unknown severity for debugging
                 unknown_count += 1
 
-    print_severities(informational_count, gas_count, low_count, medium_count, high_count, critical_count, undetermined_count, unknown_count, len(existing_findings))
+    # Store other data of auditor totals
+    audit_name = file_name.split("_")[0]
+    total_count = len(existing_findings)
+    unique_audits = count_audits(file_name)
 
-def print_severities(info, gas, low, med, high, crit, undetermined, unknown, total):
-    print(str(info) + " Info findings or " + str(100 * info/total) + "%")
-    print(str(gas) + " Gas findings or " + str(100 * gas/total) + "%")
-    print(str(low) + " Low findings or " + str(100 * low/total) + "%")
-    print(str(med) + " Medium findings or " + str(100 * med/total) + "%")
-    print(str(high) + " High findings or " + str(100 * high/total) + "%")
+    # Calculate the average findings per report
+    crit_avg = critical_count/unique_audits
+    high_avg = high_count/unique_audits
+    med_avg = medium_count/unique_audits
+    low_avg = low_count/unique_audits
+    gas_avg = gas_count/unique_audits
+    info_avg = informational_count/unique_audits
+    undet_avg = undetermined_count/unique_audits
+    unk_avg = unknown_count/unique_audits
+    total_avg = total_count/unique_audits
+
+    # Print data
+    print_severities(critical_count, high_count, medium_count, low_count, gas_count, informational_count, undetermined_count, unknown_count, total_count)
+    print(">>>" + audit_name + " has " + str(unique_audits) + " unique audits")
+    print_averages(crit_avg, high_avg, med_avg, low_avg, gas_avg, info_avg, undet_avg, unk_avg, total_avg)
+
+    # Finally, write all data to CSV
+    all_stats = [audit_name, str(critical_count), str(high_count), str(medium_count), str(low_count), str(gas_count), str(informational_count), str(undetermined_count), str(unknown_count), str(total_count), str(unique_audits)]
+    avg_stats = [str(crit_avg), str(high_avg), str(med_avg), str(low_avg), str(gas_avg), str(info_avg), str(undet_avg), str(unk_avg), str(total_avg)]
+    combined_data = all_stats + [' '] + avg_stats
+    csv_output_line = ','.join(combined_data) # join only works with strings, not ints
+    with open(f"results.csv", "a") as f:
+        f.write(csv_output_line + "\n")
+        f.close()
+
+def print_severities(crit, high, med, low, gas, info, undetermined, unknown, total):
     print(str(crit) + " Critical findings or " + str(100 * crit/total) + "%")
+    print(str(high) + " High findings or " + str(100 * high/total) + "%")
+    print(str(med) + " Medium findings or " + str(100 * med/total) + "%")
+    print(str(low) + " Low findings or " + str(100 * low/total) + "%")
+    print(str(gas) + " Gas findings or " + str(100 * gas/total) + "%")
+    print(str(info) + " Info findings or " + str(100 * info/total) + "%")
     print(str(undetermined) + " Undetermined findings or " + str(100 * undetermined/total) + "%")
     print(str(unknown) + " Unknown findings or " + str(100 * unknown/total) + "%")
     print(str(total) + " total findings")
     print()
 
+def print_averages(crit, high, med, low, gas, info, undetermined, unknown, total):
+    print("Average number of findings per audit:")
+    print(str(crit) + " Critical findings per audit")
+    print(str(high) + " High findings per audit")
+    print(str(med) + " Medium findings per audit")
+    print(str(low) + " Low findings per audit")
+    print(str(gas) + " Gas findings per audit")
+    print(str(info) + " Info findings per audit")
+    print(str(undetermined) + " Undetermined findings per audit")
+    print(str(unknown) + " Unknown findings per audit")
+    print(str(total) + " total findings per audit")
+    print()
+
+def count_audits(file_name):
+    try:
+        with open("results/" + file_name, "r") as f:
+            existing_findings = json.load(f)
+    except FileNotFoundError:
+        existing_findings = []
+
+    all_reports = []
+    # Iterate through all findings to list high, medium, low
+    for finding in existing_findings:
+        # Use the report url to identify the number of unique audits
+        if 'html_url' in finding.keys():
+            report_url = finding['html_url']
+            if report_url.find("github.com/code-423n4/") > 0:
+                report_url = report_url.split("/issues/")[0]
+            if report_url not in all_reports:
+                all_reports.append(report_url)
+        else:
+            continue
+
+    return len(all_reports)
+
+def insert_csv_header():
+    with open(f"results.csv", "w") as f:
+        f.write("audit company, critical, high, medium, low, gas, info, undetermined, unknown, total, audit count, BLANK, critical average, high average, medium average, low average, gas average, info average, undetermined average, unknown average, total average\n")
+        f.close()
+
 if __name__ == "__main__":
+    insert_csv_header()
     severity_metrics("codearena_findings.json")
     severity_metrics("gitbook_docs.json")
     # severity_metrics("hacklabs_findings.json") # no severity data for hacklabs
@@ -87,3 +156,7 @@ if __name__ == "__main__":
     severity_metrics("yaudit_findings.json")
     severity_metrics("spearbit_findings.json")
     severity_metrics("dedaub_findings.json")
+    severity_metrics("hacklabs_findings.json")
+    severity_metrics("halborn_findings.json")
+    severity_metrics("oak_security_findings.json")
+    severity_metrics("slowmist_findings.json")
