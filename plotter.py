@@ -22,25 +22,31 @@ def plot_data(csv_file: str):
 			all_data.append(row)
 	
 	audit_names = []
-	crits = []
-	highs = []
-	total = []
-	crits_avg = []
-	highs_avg = []
-	lows_avg = []
-	infos_avg = []
-	total_avg = []
+	crits, highs, meds, lows, gas, infos, undet, unk, total  = ([] for i in range(9))
+	crits_avg, highs_avg, meds_avg, lows_avg, gas_avg, infos_avg, undet_avg, unk_avg, total_avg = ([] for i in range(9))
 	for i in range(len(all_data)):
 		if i == 0:
 			continue
 		audit_names.append(all_data[i][0])
+		# First, set total values
 		crits.append(float(all_data[i][1]))
-		highs.append(float(all_data[i][1]))
+		highs.append(float(all_data[i][2]))
+		meds.append(float(all_data[i][3]))
+		lows.append(float(all_data[i][4]))
+		gas.append(float(all_data[i][5]))
+		infos.append(float(all_data[i][6]))
+		undet.append(float(all_data[i][7]))
+		unk.append(float(all_data[i][8]))
 		total.append(float(all_data[i][9]))
+		# Second, set average values
 		crits_avg.append(float(all_data[i][12]))
 		highs_avg.append(float(all_data[i][13]))
+		meds_avg.append(float(all_data[i][14]))
 		lows_avg.append(float(all_data[i][15]))
+		gas_avg.append(float(all_data[i][16]))
 		infos_avg.append(float(all_data[i][17]))
+		undet_avg.append(float(all_data[i][18]))
+		unk_avg.append(float(all_data[i][19]))
 		total_avg.append(float(all_data[i][20]))
 
 	# Plot the data
