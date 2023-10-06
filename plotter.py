@@ -22,32 +22,36 @@ def plot_data(csv_file: str):
 			all_data.append(row)
 	
 	audit_names = []
-	crits, highs, meds, lows, gas, infos, undet, unk, total  = ([] for i in range(9))
-	crits_avg, highs_avg, meds_avg, lows_avg, gas_avg, infos_avg, undet_avg, unk_avg, total_avg = ([] for i in range(9))
+	crits_highs, crits, highs, meds, lows, gas, infos, undet, unk, total  = ([] for i in range(10))
+	crits_highs_avg, crits_avg, highs_avg, meds_avg, lows_avg, gas_avg, infos_avg, undet_avg, unk_avg, total_avg = ([] for i in range(10))
 	for i in range(len(all_data)):
 		if i == 0:
 			continue
 		audit_names.append(all_data[i][0])
 		# First, set total values
-		crits.append(float(all_data[i][1]))
-		highs.append(float(all_data[i][2]))
-		meds.append(float(all_data[i][3]))
-		lows.append(float(all_data[i][4]))
-		gas.append(float(all_data[i][5]))
-		infos.append(float(all_data[i][6]))
-		undet.append(float(all_data[i][7]))
-		unk.append(float(all_data[i][8]))
-		total.append(float(all_data[i][9]))
+		crits_highs.append(float(all_data[i][1]))
+		crits.append(float(all_data[i][2]))
+		highs.append(float(all_data[i][3]))
+		meds.append(float(all_data[i][4]))
+		lows.append(float(all_data[i][5]))
+		gas.append(float(all_data[i][6]))
+		infos.append(float(all_data[i][7]))
+		undet.append(float(all_data[i][8]))
+		unk.append(float(all_data[i][9]))
+		total.append(float(all_data[i][10]))
 		# Second, set average values
-		crits_avg.append(float(all_data[i][12]))
-		highs_avg.append(float(all_data[i][13]))
-		meds_avg.append(float(all_data[i][14]))
-		lows_avg.append(float(all_data[i][15]))
-		gas_avg.append(float(all_data[i][16]))
-		infos_avg.append(float(all_data[i][17]))
-		undet_avg.append(float(all_data[i][18]))
-		unk_avg.append(float(all_data[i][19]))
-		total_avg.append(float(all_data[i][20]))
+		crits_highs_avg.append(float(all_data[i][13]))
+		crits_avg.append(float(all_data[i][14]))
+		highs_avg.append(float(all_data[i][15]))
+		meds_avg.append(float(all_data[i][16]))
+		lows_avg.append(float(all_data[i][17]))
+		gas_avg.append(float(all_data[i][18]))
+		infos_avg.append(float(all_data[i][19]))
+		undet_avg.append(float(all_data[i][20]))
+		unk_avg.append(float(all_data[i][21]))
+		total_avg.append(float(all_data[i][22]))
+
+
 
 	# Plot the data
 
@@ -55,7 +59,7 @@ def plot_data(csv_file: str):
 	plt.subplot(231)
 	plt.bar(audit_names, total)
 	plt.ylabel('Findings')
-	plt.title('Total Findings')
+	plt.title('Total Findings Ever')
 	# Plot average crits
 	plt.subplot(232)
 	plt.bar(audit_names, crits_avg)
@@ -66,16 +70,21 @@ def plot_data(csv_file: str):
 	plt.bar(audit_names, highs_avg)
 	plt.ylabel('Average Highs')
 	plt.title('Average High Findings Per Report')
-	# Plot average low findings
+	# Plot average crit & high findings combined, because some reports don't use crit rating level
 	plt.subplot(234)
+	plt.bar(audit_names, crits_highs_avg)
+	plt.ylabel('Average Criticals & Highs Combined')
+	plt.title('Average Crit&High Findings Per Report')
+	# Plot average low findings
+	plt.subplot(235)
 	plt.bar(audit_names, lows_avg)
 	plt.ylabel('Average Lows')
 	plt.title('Average Low Findings Per Report')
-	# Plot average info findings
-	plt.subplot(235)
-	plt.bar(audit_names, infos_avg)
-	plt.ylabel('Average Infos')
-	plt.title('Average Info Findings Per Report')
+	# # Plot average info findings
+	# plt.subplot(235)
+	# plt.bar(audit_names, infos_avg)
+	# plt.ylabel('Average Infos')
+	# plt.title('Average Info Findings Per Report')
 	# Plot average total findings
 	plt.subplot(236)
 	plt.bar(audit_names, total_avg)

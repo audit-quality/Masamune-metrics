@@ -1,11 +1,21 @@
 # Masamune-metrics
 
-Generate metrics from Masamune JSON results
+Generate metrics from Masamune JSON results. Provide visibility into what you're paying for at different smart contract security audit firms so that developers and protocols are not purchasing an unknown black box product with no hard data about what they will receive.
+
+## Warnings and Caveats
+
+> "There are three kinds of lies: lies, damned lies, and statistics"
+
+This data is open to interpretation because of, but not limited to:
+1. Every audit firm has their own severity rating process. The same finding may be rated low severity by one audit firm and high severity in another. Use the average results and review some of the specific firm's audit reports to determine what an average outcome may look like.
+2. This data is fully automated from parsed reports and does not consider the quality or uniqueness of report findings. If one audit firm includes 2 medium severity findings from slither (which may not be considered mediums elsewhere, as the previous point indicates) and another audit firm finds two very unique and hard-to-identify findings from custom analysis, they are counted the same in these metrics.
+3. Not all reports are public and this data can only harness public data. There is nothing that can be done about this except to encourage all developers to publish their audit reports to enhance data sharing across the ecosystem.
+4. What gets measured gets managed. If this dataset starts to become useful to developers deciding on an audit firm, you can be sure that audit firms will change how they rate the severity of findings to improve their stats. To counteract this, a neutral body that oversees some form of quality control for the severity rating of findings may be needed.
 
 ## Instructions
 
 1. Download this repository and download the [Masamune](https://github.com/Zellic/masamune) repository
-2. Copy the `findings-metrics.py` and `findings-metrics.py` files from this repository into the Masamune repository. Alternatively, copy the `results` directory from the Masamune repository into this directory
+2. Copy the `findings-metrics.py` and `findings-metrics.py` files from this repository into the Masamune repository. Alternatively, copy the `results` directory from the Masamune repository into this directory. The `findings-metrics.py` script needs to find the Masamune JSON files in the `./results` directory.
 3. Run `python3 findings-metrics.py` to generate the text output shown below and to create `result.csv` containing this data
 4. Run `python3 findings-metrics.py` to generate charts of the data using the `result.csv` file
 
